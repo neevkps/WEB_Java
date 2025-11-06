@@ -1,0 +1,294 @@
+openapi: 3.0.3
+info:
+  title: Product API
+  description: API for managing product data
+  version: 1.0.0
+
+paths:
+  /api/v1/products:
+    get:
+      summary: Get all products
+      operationId: getAllProducts
+      tags:
+        - Products
+      responses:
+        '200':
+          description: A list of all products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailsListDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      summary: Create a new product
+      operationId: createProduct
+      tags:
+        - Products
+      requestBody:
+        description: Data for the new product
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetailsDto'
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailsEntry'
+        '400':
+          description: Invalid input provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/products/{id}:
+    get:
+      summary: Get product by ID
+      operationId: getProductById
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the product
+      responses:
+        '200':
+          description: Product found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailsEntry'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductNotFoundException'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Replace existing product by ID
+      operationId: updateProduct
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The product ID to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDetailsDto'
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailsEntry'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Delete product by ID
+      operationId: deleteProduct
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The product ID to delete
+      responses:
+        '204':
+          description: Product deleted successfully
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ProductDetailsDto:
+      type: object
+      required:
+        - name
+        - price
+        - stockQuantity
+      properties:
+        name:
+          type: string
+          maxLength: 150
+          minLength: 3
+          description: Name of the product
+        description:
+          type: string
+          description: A detailed description of the product
+        price:
+          type: number
+          format: float
+          minimum: 0.01
+          description: Price of the product (must be > 0)
+        sku:
+          type: string
+          pattern: "^[A-Z0-9-]{3,20}$"
+          description: Stock Keeping Unit (SKU)
+        category:
+          type: string
+          description: Product category
+        stockQuantity:
+          type: integer
+          minimum: 0
+          description: Quantity in stock
+
+    ProductDetailsListDto:
+      type: object
+      properties:
+        productDetailsEntries:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetailsEntry'
+
+    ProductDetailsEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the product
+        name:
+          type: string
+          description: Name of the product
+        price:
+          type: number
+          format: float
+          description: Price of the product
+        sku:
+          type: string
+          description: Stock Keeping Unit (SKU) for the product
+        category:
+          type: string
+          description: The category the product belongs to
+        stockQuantity:
+          type: integer
+          description: The number of items available in stock
+
+    ValidationError:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "https://example.com/problems/validation-error"
+        title:
+          type: string
+          example: "Validation Failed"
+        status:
+          type: integer
+          example: 400
+        detail:
+          type: string
+          example: "One or more fields are invalid."
+        path:
+          type: string
+          example: "/api/v1/products"
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParamsViolationDetails'
+
+    ProductNotFoundException:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "https://example.com/problems/product-not-found"
+        title:
+          type: string
+          example: "Product not found"
+        status:
+          type: integer
+          example: 404
+        detail:
+          type: string
+          example: "Product with ID 42 was not found."
+        path:
+          type: string
+          example: "/api/v1/products/42"
+
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short, human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+
+    ParamsViolationDetails:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: The field where the validation error occurred
+        reason:
+          type: string
+          description: The reason for the validation error
