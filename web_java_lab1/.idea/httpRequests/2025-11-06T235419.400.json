@@ -1,0 +1,7 @@
+{
+  "type": "validation_error",
+  "title": "Bad Request",
+  "status": 400,
+  "detail": "Validation failed for object 'productDetailsDto': Field 'name' Product name must contain a cosmic word such as 'star', 'galaxy' or 'comet'.",
+  "path": "/api/v1/products"
+}
