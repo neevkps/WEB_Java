@@ -16,7 +16,6 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl() {
         createProduct(Product.builder()
-                .id(1L)
                 .name("Starship Monitor")
                 .description("High-end monitor for interstellar missions")
                 .price(BigDecimal.valueOf(1999.99))
@@ -25,17 +24,24 @@ public class ProductServiceImpl implements ProductService {
                 .build());
 
         createProduct(Product.builder()
-                .id(2L)
                 .name("Galaxy Smartphone")
                 .description("Smartphone with cosmic connectivity")
                 .price(BigDecimal.valueOf(899.50))
                 .category("Electronics")
                 .stockQuantity(50)
                 .build());
+        createProduct(Product.builder()
+                .name("Cosmo Cat")
+                .description("some description")
+                .price(BigDecimal.valueOf(555.50))
+                .category("Toys")
+                .stockQuantity(5)
+                .build());
     }
-
+    private static long idCounter = 1;
     @Override
     public Product createProduct(Product product) {
+        product.setId(idCounter++);
         products.add(product);
         return product;
     }

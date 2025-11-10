@@ -1,7 +1,6 @@
 package com.wearetrying.space_cats_market.domain;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
 

@@ -3,7 +3,6 @@ package com.wearetrying.space_cats_market.controllers;
 import com.wearetrying.space_cats_market.domain.Product;
 import com.wearetrying.space_cats_market.dto.product.ProductDetailsDto;
 import com.wearetrying.space_cats_market.dto.product.ProductDetailsListDto;
-import com.wearetrying.space_cats_market.dto.product.ProductDetailsEntry;
 import com.wearetrying.space_cats_market.service.ProductService;
 import com.wearetrying.space_cats_market.service.mapper.ProductMapper;
 import jakarta.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.UUID;
 
 
 @RestController
@@ -29,30 +27,13 @@ public class ProductController {
     public ResponseEntity<ProductDetailsListDto> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         ProductDetailsListDto dtoList = productMapper.toProductDetailsListDto(products);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(dtoList);
-    }
-
-    @GetMapping("/entries")
-    public ResponseEntity<List<ProductDetailsEntry>> getAllProductEntries() {
-        List<Product> products = productService.getAllProducts();
-        List<ProductDetailsEntry> entries = productMapper.toProductDetailsEntry(products);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(entries);
+        return ResponseEntity.ok(dtoList);
     }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(
-            @Valid @RequestBody ProductDetailsDto dto
-    ) {
-        Product product = Product.builder()
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice())
-                .category(dto.getCategory())
-                .stockQuantity(dto.getStockQuantity())
-                .build();
-
+            @Valid @RequestBody ProductDetailsDto dto) {
+        Product product = productMapper.toProduct(dto);
         Product created = productService.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -61,8 +42,17 @@ public class ProductController {
     public ResponseEntity<ProductDetailsDto> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
         ProductDetailsDto dto = productMapper.toProductDetailsDto(product);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(dto);
+        return ResponseEntity.ok(dto);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDetailsDto> updateProduct(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductDetailsDto dto) {
+
+        Product updatedProduct = productService.updateProduct(id, productMapper.toProduct(dto));
+        ProductDetailsDto updatedDto = productMapper.toProductDetailsDto(updatedProduct);
+
+        return ResponseEntity.ok(updatedDto);
     }
 
 

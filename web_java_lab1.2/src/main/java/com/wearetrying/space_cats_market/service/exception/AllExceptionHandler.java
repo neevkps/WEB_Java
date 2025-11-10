@@ -11,29 +11,24 @@ import java.util.List;
 @ControllerAdvice
 public class AllExceptionHandler {
 
-    // @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(
             MethodArgumentNotValidException ex,
             WebRequest request
     ) {
         List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-
-        FieldError firstError = errors.isEmpty() ? null : errors.get(0);
-        String detail = (firstError != null)
-                ? String.format(
-                "Validation failed for object '%s': Field '%s' %s.",
-                firstError.getObjectName(),
-                firstError.getField(),
-                firstError.getDefaultMessage()
-        )
-                : "Validation failed.";
+        String detail = errors.isEmpty()
+                ? "Validation failed."
+                : errors.stream()
+                .map(error -> String.format("Field '%s' %s", error.getField(), error.getDefaultMessage()))
+                .reduce((a, b) -> a + "; " + b)
+                .orElse("Validation failed.");
 
         ErrorResponse errorResponse = new ErrorResponse(
                 "validation_error",
                 "Bad Request",
                 HttpStatus.BAD_REQUEST.value(),
-                detail,
+                "Validation failed for object '" + ex.getBindingResult().getObjectName() + "': " + detail,
                 getRequestPath(request)
         );
 

@@ -7,7 +7,6 @@ import com.wearetrying.space_cats_market.service.impl.ProductServiceImpl;
 
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -34,9 +33,8 @@ public class ProductServiceTest {
     @Autowired
     private ProductServiceImpl productService;
 
-    private static Product buildProduct(Long id) {
+    private Product buildProduct() {
         return Product.builder()
-                .id(id)
                 .name(PRODUCT_NAME)
                 .description(PRODUCT_DESCRIPTION)
                 .price(BigDecimal.valueOf(PRODUCT_PRICE))
@@ -44,10 +42,12 @@ public class ProductServiceTest {
                 .stockQuantity(PRODUCT_STOCK_QUANTITY)
                 .build();
     }
+
+
     @Test
     @DisplayName("Should add a new product")
     public void shouldAddNewProduct() {
-        Product newProduct = buildProduct(3L);
+        Product newProduct = buildProduct();
         Product added = productService.createProduct(newProduct);
 
         assertNotNull(added.getId());
@@ -68,7 +68,7 @@ public class ProductServiceTest {
     public void shouldGetAllProducts() {
         List<Product> allProducts = productService.getAllProducts();
         assertNotNull(allProducts);
-        assertEquals(allProducts.size(), 2);
+        assertEquals(allProducts.size(), 3);
 
         Product product1 = allProducts.get(0);
         Product product2 = allProducts.get(1);
@@ -79,14 +79,14 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Get product by id test")
     public void shouldGetProductById() {
-        Product fetched = productService.getProductById(1L);
+        Product fetched = productService.getProductById(2L);
         assertNotNull(fetched);
-        assertEquals(1L, fetched.getId());
-        assertEquals("Starship Monitor", fetched.getName());
-        assertEquals("High-end monitor for interstellar missions", fetched.getDescription());
-        assertEquals(BigDecimal.valueOf(1999.99), fetched.getPrice());
+        assertEquals(2L, fetched.getId());
+        assertEquals("Galaxy Smartphone", fetched.getName());
+        assertEquals("Smartphone with cosmic connectivity", fetched.getDescription());
+        assertEquals(BigDecimal.valueOf(899.50), fetched.getPrice());
         assertEquals("Electronics", fetched.getCategory());
-        assertEquals(10, fetched.getStockQuantity());
+        assertEquals(50, fetched.getStockQuantity());
     }
     @Test
     @DisplayName("Update product test")
@@ -119,10 +119,10 @@ public class ProductServiceTest {
     @Test
     @DisplayName("Delete product test")
     public void shouldDeleteProduct() {
-        Product productToDelete = productService.getProductById(2L);
+        Product productToDelete = productService.getProductById(3L);
 
         assertTrue(productService.getAllProducts().contains(productToDelete));
-        productService.deleteProduct(2L);
+        productService.deleteProduct(3L);
 
         assertFalse(productService.getAllProducts().contains(productToDelete));
     }
@@ -131,7 +131,17 @@ public class ProductServiceTest {
     public void shouldThrowExceptionGetProductById() {
         assertThrows(ProductNotFoundException.class, () -> productService.getProductById(35L));
     }
+    @Test
+    @DisplayName("Update non-existing product should throw")
+    void shouldThrowWhenUpdateNonExisting() {
+        Product updatedData = Product.builder()
+                .name("Updated")
+                .description("Updated desc")
+                .price(BigDecimal.valueOf(100))
+                .category("Electronics")
+                .stockQuantity(5)
+                .build();
 
-
-
+        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(999L, updatedData));
+    }
 }

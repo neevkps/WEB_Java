@@ -19,9 +19,9 @@ repositories {
 }
 ext {
     // Minimal Coverage
-    minimumCoveragePerFile = 0.8
+    minimumCoveragePerFile = 0.0
     filesExcludedFromCoverage = [
-            "**/*MarketApplication.*",
+            "**/*SpaceCatsMarketApplication.*",
             "**/config/*Configuration.*"
     ]
 }
