@@ -181,10 +181,6 @@ components:
           format: float
           minimum: 0.01
           description: Price of the product (must be > 0)
-        sku:
-          type: string
-          pattern: "^[A-Z0-9-]{3,20}$"
-          description: Stock Keeping Unit (SKU)
         category:
           type: string
           description: Product category
@@ -215,9 +211,6 @@ components:
           type: number
           format: float
           description: Price of the product
-        sku:
-          type: string
-          description: Stock Keeping Unit (SKU) for the product
         category:
           type: string
           description: The category the product belongs to

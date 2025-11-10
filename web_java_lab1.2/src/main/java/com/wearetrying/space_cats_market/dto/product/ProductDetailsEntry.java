@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 @Jacksonized
 public class ProductDetailsEntry {
-    UUID id;
+    Long id;
     String name;
     String description;
     BigDecimal price;

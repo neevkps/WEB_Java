@@ -16,6 +16,7 @@ public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl() {
         createProduct(Product.builder()
+                .id(1L)
                 .name("Starship Monitor")
                 .description("High-end monitor for interstellar missions")
                 .price(BigDecimal.valueOf(1999.99))
@@ -24,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
                 .build());
 
         createProduct(Product.builder()
+                .id(2L)
                 .name("Galaxy Smartphone")
                 .description("Smartphone with cosmic connectivity")
                 .price(BigDecimal.valueOf(899.50))
@@ -34,7 +36,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product createProduct(Product product) {
-        product.setId(UUID.randomUUID());
         products.add(product);
         return product;
     }
@@ -46,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(UUID id) {
+    public Product getProductById(Long id) {
         return products.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
@@ -54,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(UUID id, Product updatedProduct) {
+    public Product updateProduct(Long id, Product updatedProduct) {
         Product existingProduct = getProductById(id);
 
         Product updated = existingProduct.toBuilder()
@@ -72,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(UUID id) {
+    public void deleteProduct(Long id) {
         Product product = getProductById(id);
         products.remove(product);
     }

@@ -41,8 +41,24 @@ public class ProductController {
                 .body(entries);
     }
 
+    @PostMapping
+    public ResponseEntity<Product> createProduct(
+            @Valid @RequestBody ProductDetailsDto dto
+    ) {
+        Product product = Product.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .category(dto.getCategory())
+                .stockQuantity(dto.getStockQuantity())
+                .build();
+
+        Product created = productService.createProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailsDto> getProductById(@PathVariable UUID id) {
+    public ResponseEntity<ProductDetailsDto> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
         ProductDetailsDto dto = productMapper.toProductDetailsDto(product);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -51,7 +67,7 @@ public class ProductController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }

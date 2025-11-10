@@ -156,10 +156,9 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.SpaceCatsMarketApplication.executor": "Run",
-    "git-widget-placeholder": "lab1.1",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Study/3kurs/1sem/WEB_Java_repositiry/web_java_lab1",
+    "last_opened_file_path": "C:/Study/3kurs/1sem/WEB_Java_repositiry/web_java_lab1.2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -220,7 +219,7 @@
       <workItem from="1762375942457" duration="10730000" />
       <workItem from="1762461509486" duration="8245000" />
       <workItem from="1762471173980" duration="207000" />
-      <workItem from="1762723363511" duration="2167000" />
+      <workItem from="1762723363511" duration="2310000" />
     </task>
     <servers />
   </component>
