@@ -1,14 +1,9 @@
 package com.wearetrying.space_cats_market.service;
-import static org.junit.jupiter.api.Assertions.*;
+
 import com.wearetrying.space_cats_market.config.MappersTestConfiguration;
 import com.wearetrying.space_cats_market.domain.Product;
 import com.wearetrying.space_cats_market.service.exception.ProductNotFoundException;
 import com.wearetrying.space_cats_market.service.impl.ProductServiceImpl;
-
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -16,6 +11,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(classes = {ProductServiceImpl.class})
@@ -53,7 +53,7 @@ public class ProductServiceTest {
         assertNotNull(added.getId());
         assertEquals(PRODUCT_NAME, added.getName());
         assertEquals(PRODUCT_DESCRIPTION, added.getDescription());
-        assertEquals(java.math.BigDecimal.valueOf(PRODUCT_PRICE), added.getPrice());
+        assertEquals(BigDecimal.valueOf(PRODUCT_PRICE), added.getPrice());
         assertEquals(PRODUCT_CATEGORY, added.getCategory());
         assertEquals(PRODUCT_STOCK_QUANTITY, added.getStockQuantity());
 

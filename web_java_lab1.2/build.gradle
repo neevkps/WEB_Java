@@ -19,7 +19,7 @@ repositories {
 }
 ext {
     // Minimal Coverage
-    minimumCoveragePerFile = 0.0
+    minimumCoveragePerFile = 0.8
     filesExcludedFromCoverage = [
             "**/*SpaceCatsMarketApplication.*",
             "**/config/*Configuration.*"

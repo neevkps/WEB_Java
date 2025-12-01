@@ -30,6 +30,7 @@ public interface ProductMapper {
                 .build();
     }
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "name", source = "name")
     @Mapping(target = "description", source = "description")
     @Mapping(target = "price", source = "price")

@@ -15,3 +15,4 @@ public @interface CosmicWordCheck {
 
     Class<? extends Payload>[] payload() default {};
 }
+

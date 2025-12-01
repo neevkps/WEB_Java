@@ -3,6 +3,7 @@ package com.wearetrying.space_cats_market.controllers;
 import com.wearetrying.space_cats_market.domain.Product;
 import com.wearetrying.space_cats_market.dto.product.ProductDetailsDto;
 import com.wearetrying.space_cats_market.dto.product.ProductDetailsListDto;
+import com.wearetrying.space_cats_market.dto.product.ProductDetailsEntry;
 import com.wearetrying.space_cats_market.service.ProductService;
 import com.wearetrying.space_cats_market.service.mapper.ProductMapper;
 import jakarta.validation.Valid;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.UUID;
+
 
 
 @RestController

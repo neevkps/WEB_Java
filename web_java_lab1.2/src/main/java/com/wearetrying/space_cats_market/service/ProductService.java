@@ -2,7 +2,9 @@ package com.wearetrying.space_cats_market.service;
 import com.wearetrying.space_cats_market.domain.Product;
 
 
+
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductService {
     List<Product> getAllProducts();
