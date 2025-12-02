@@ -4,6 +4,7 @@ import com.wearetrying.space_cats_market.domain.Product;
 import com.wearetrying.space_cats_market.service.ProductService;
 import com.wearetrying.space_cats_market.service.exception.ProductNotFoundException;
 
+import com.wearetrying.space_cats_market.service.exception.ValidationException;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.*;
@@ -42,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(Product product) {
         product.setId(idCounter++);
+        validateProductBusinessRules(product);
         products.add(product);
         return product;
     }
@@ -71,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
                 .category(updatedProduct.getCategory())
                 .stockQuantity(updatedProduct.getStockQuantity())
                 .build();
-
+        validateProductBusinessRules(updatedProduct);
         int index = products.indexOf(existingProduct);
         products.set(index, updated);
 
@@ -82,5 +84,15 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
         Product product = getProductById(id);
         products.remove(product);
+    }
+    private void validateProductBusinessRules(Product product) {
+        List<String> errors = new ArrayList<>();
+        if (product.getStockQuantity() > 1000) {
+            errors.add("Warehouse capacity exceeded (Max 1000)");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
     }
 }

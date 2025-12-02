@@ -205,9 +205,9 @@ public class ProductControllerIT {
         ProductDetailsDto invalidDto = ProductDetailsDto.builder()
                 .name("Invalid")
                 .description("Desc")
-                .price(BigDecimal.valueOf(10))
-                .category(PRODUCT_CATEGORY)
-                .stockQuantity(5)
+                .price(BigDecimal.valueOf(-1))
+                .category("")
+                .stockQuantity(0)
                 .build();
 
         mockMvc.perform(put("/api/v1/products/{id}", 1L)
