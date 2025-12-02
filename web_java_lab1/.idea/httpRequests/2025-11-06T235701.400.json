@@ -1,7 +1,0 @@
-{
-  "type": "validation_error",
-  "title": "Bad Request",
-  "status": 400,
-  "detail": "Validation failed for object 'productDetailsDto': Field 'price' Price must be greater than 0.",
-  "path": "/api/v1/products"
-}
