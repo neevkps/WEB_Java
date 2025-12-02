@@ -70,6 +70,21 @@ public class AllExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+    @ExceptionHandler(FeatureNotAvailableException.class)
+    public ResponseEntity<ErrorResponse> handleFeatureNotAvailable(
+            FeatureNotAvailableException ex,
+            WebRequest request
+    ) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "feature_not_available",
+                "Service Unavailable",
+                HttpStatus.SERVICE_UNAVAILABLE.value(),
+                ex.getMessage(),
+                getRequestPath(request)
+        );
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorResponse);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAll(

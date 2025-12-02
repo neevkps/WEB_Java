@@ -1,3 +1,7 @@
+feature:
+    toggles:
+        cosmoProducts: true
+        blackHoleDiscounts: false
 spring:
   application:
     name: SpaceCatsMarket

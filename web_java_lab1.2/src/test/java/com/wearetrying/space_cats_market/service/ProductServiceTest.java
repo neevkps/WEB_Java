@@ -3,6 +3,7 @@ package com.wearetrying.space_cats_market.service;
 import com.wearetrying.space_cats_market.config.MappersTestConfiguration;
 import com.wearetrying.space_cats_market.domain.Product;
 import com.wearetrying.space_cats_market.service.exception.ProductNotFoundException;
+import com.wearetrying.space_cats_market.service.exception.ValidationException;
 import com.wearetrying.space_cats_market.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -143,5 +144,21 @@ public class ProductServiceTest {
                 .build();
 
         assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(999L, updatedData));
+    }
+    @Test
+    @DisplayName("Should throw custom ValidationException when business rules are violated")
+    void shouldThrowBusinessValidationException() {
+        Product badProduct = buildProduct();
+        badProduct.setStockQuantity(5000);
+
+        ValidationException exception = assertThrows(ValidationException.class, () -> {
+            productService.createProduct(badProduct);
+        });
+
+
+        assertNotNull(exception.getValidationErrors());
+        String allErrors = String.join(", ", exception.getValidationErrors());
+
+        assertTrue(allErrors.contains("Warehouse capacity exceeded"));
     }
 }
