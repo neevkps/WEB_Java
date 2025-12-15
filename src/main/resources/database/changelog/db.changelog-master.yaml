@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: changes/001-initial-schema.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/002-constraints-indexes.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changes/003-add-natural-id.yaml
+      relativeToChangelogFile: true

@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-add-tracking-number-to-orders
+      author: space_cat
+      changes:
+        - addColumn:
+            tableName: orders
+            columns:
+              - column:
+                  name: tracking_number
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_order_tracking_number
