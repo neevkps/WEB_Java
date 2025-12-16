@@ -6,11 +6,12 @@ import com.wearetrying.space_cats_market.services.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@WithMockUser(username = "admin", roles = "ADMIN")
 public class OrderServiceIT extends AbstractIt {
 
     @Autowired

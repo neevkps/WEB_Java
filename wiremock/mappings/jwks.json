@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/.well-known/jwks.json"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "keys": [
+        {"kty":"RSA","e":"AQAB","kid":"test-id","n":"wmqCVPZ6ztYwGn6PSQvNAS_a7M0R14e3qs9df5O9YKMezLkYQq6f-5PNd_55Ljgv3uapPsqe-rxbnB1aYU9SUtulFMwrWzzs2SK_Ys0YohPc4nK6auTYh2zcMvsZUzdRd6aPPJVMR47o1Jgj7MRablr_f9e_gD9ZSELKkMeL0vbTdAVrdJeL_9AEiUSvJl8GH3YFVj6Xq-e1RhWUAG5O5Rg1iiOdhC5W-AzxtuHWGaS-WNFtFOHdRRKCEqdtCSKxZzFNInJ7FuluSWpmx7vpauEzt_VYnUw-mYuzbE1X_FmjPAmlJbOcLtOXTPPVykIAxAHrxa3gLE6aiV5i1OnsBQ"}
+      ]}
+
+}
+}
