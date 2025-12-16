@@ -1,13 +1,27 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: SpaceCatsMarket
+
   datasource:
     url: jdbc:postgresql://localhost:5432/space_cats_market_db
     username: postgres
     password: password
+
   liquibase:
     change-log: classpath:database/changelog/db.changelog-master.yaml
+
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: validate
-    show-sql: true
+
+  # Ось тут ваші налаштування безпеки
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Вказуємо на WireMock (Docker)
+          jwk-set-uri: http://localhost:8081/.well-known/jwks.json
